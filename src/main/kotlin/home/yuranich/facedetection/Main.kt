@@ -4,8 +4,11 @@ import home.yuranich.facedetection.FaceUtils
 import java.io.File
 
 fun main(args: Array<String>) {
+    if (args.size != 2) {
+        throw IllegalArgumentException("Expected parameters: <input folder> <output folder>")
+    }
     FaceDetection.loadModel()
-    val file = File("/home/yuranich/Pictures/фотки/AppPhotos")
+    val file = File(args[0])
 
     var counter = 0
     file.walkBottomUp()
@@ -18,7 +21,7 @@ fun main(args: Array<String>) {
             val faces = FaceUtils.detectFaces(it)
             faces.zip( IntArray(faces.size) { ++counter }.asIterable()).asSequence()
         }.forEach {
-            FaceUtils.writeFace(it.first, it.second)
+            FaceUtils.writeFace(it.first, it.second, args[1])
         }
 
 }

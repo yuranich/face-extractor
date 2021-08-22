@@ -9,25 +9,6 @@ import java.io.File
 
 object FaceUtils {
 
-    fun extractorFace(file: File) {
-        println("Reading path: ${file.absolutePath}")
-        val image = imread(file.absolutePath)
-        println("Loaded image: ${image}")
-        val rects = FaceDetection.detectFaces(image)
-        println("Detected ${rects.size()} faces.")
-        val faces = (0 until rects.size()).map {
-            val rect = rects[it]
-
-            image.apply(rect)
-        }
-        if (faces.size == 1) {
-            println("Extracted image: ${faces[0]}")
-            imwrite("/home/yuranich/Pictures/Faces/face.jpg", faces[0])
-        } else {
-            println("No or too many faces found.")
-        }
-    }
-
     fun readImage(file: File): Mat {
         println("Reading path: ${file.absolutePath}")
         return imread(file.absolutePath)
@@ -44,9 +25,9 @@ object FaceUtils {
         return faces
     }
 
-    fun writeFace(face: Mat, num: Int) {
+    fun writeFace(face: Mat, num: Int, absoluteFolderPath: String) {
         println("Writing face: $num")
-        imwrite("/home/yuranich/Pictures/Faces/face$num.jpg", face)
+        imwrite("${absoluteFolderPath}${File.separator}face$num.jpg", face)
     }
 
 
